@@ -1,6 +1,6 @@
 // Inicio
 let token;
-let nropaginas = 1;
+let Npag = 2;
 $('#formphotos').on('submit', async function (ev) {
   // evitemos que se recargue la pagina
     ev.preventDefault();
@@ -82,10 +82,14 @@ $('#salir').on('click', async function (ev) {
     // evitemos que se recargue la pagina
         ev.preventDefault();
         // obtenemos el email y el password
+    
+        $('#input-email').val("");
+        $('#input-password').val("");
+
         $("#formphotos").addClass("d-block").removeClass("d-none");
         $("#photos").removeClass("d-block").addClass("d-none");
         $("#salir").removeClass("d-block").addClass("d-none");
-        $("#salir").removeClass("d-block").addClass("d-none");
+        $("#mas").removeClass("d-block").addClass("d-none");
     
 })
 
@@ -95,17 +99,18 @@ $('#mas').on('click', async function (ev) {
         ev.preventDefault();
         // obtenemos el email y el password
     
-        const data2 = await fetch('/api/photos?page=2', {
+        const data2 = await fetch('/api/photos?page=${Npag}', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        
+        // aumento nro de página
+        Npag ++
+
         const respuesta = await data2.json();
         const photos = respuesta.data;
 
         console.log("mas maspaginas");
-        nropaginas ++;
         llenarfotos(photos);
 
 })
